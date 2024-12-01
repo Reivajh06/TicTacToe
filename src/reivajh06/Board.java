@@ -5,9 +5,7 @@ package reivajh06;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,10 +19,6 @@ public class Board {
 	public Board(Map<String, List<String>> board) {
 		this.board = board;
 
-	}
-
-	public void assignValue(String row, int column, String value) {
-		board.get(row).add(column, value);
 	}
 
 	public String getBoard() {
@@ -51,7 +45,7 @@ public class Board {
 		return boardState;
 	}
 
-	public String checkRows() {
+	private String checkRows() {
 		for(List<String> row : board.values()) {
 			String rowElements = row.get(0) + row.get(1) + row.get(2);
 
@@ -65,10 +59,10 @@ public class Board {
 		}
 
 		return null;
-		
+
 	}
 
-	public String checkColumns(int column) {
+	private String checkColumns(int column) {
 		if(column == 3) {
 			return null;
 		}
@@ -88,7 +82,7 @@ public class Board {
 
 	}
 
-	public String checkDiagonal() {
+	private String checkDiagonal() {
 		String diagonal = "";
 
 		for(int i = 0; i < board.size(); i++) {
@@ -105,7 +99,7 @@ public class Board {
 		return null;
 	}
 
-	public String checkReversedDiagonal() {
+	private String checkReversedDiagonal() {
 		String reversedDiagonal = "";
 
 		for(int i = 2; i > board.size(); i--) {
@@ -121,6 +115,19 @@ public class Board {
 		}
 
 		return null;
+	}
+
+	public void assignValue(String position, String playerValue) {
+		String row = String.valueOf(position.charAt(0));
+		int columnPosition = Integer.parseInt(String.valueOf(position.charAt(1))) - 1;
+
+		if(!board.get(row).get(columnPosition).equals(" ")) {
+			System.out.printf("Position %s already has a value!!%n", position);
+
+		} else {
+			board.get(row).add(columnPosition, playerValue);
+		}
+
 	}
 
 	public List<String> availablePositions() {
@@ -186,13 +193,24 @@ public class Board {
 			}
 		}
 
-
 		if(availablePositions().isEmpty()) {
 			return BoardResults.DRAW;
 		}
 
 		return null;
- 	}
+	}
+
+	public Map<String, String> toMap() {
+		Map<String, String> positions = new LinkedHashMap<>();
+
+		for(var entry : board.entrySet()) {
+			for(int i = 0; i < entry.getValue().size(); i++) {
+				positions.put(entry.getKey() + (i + 1), entry.getValue().get(i));
+			}
+		}
+
+		return positions;
+	}
 
 	@Override
 	public String toString() {
