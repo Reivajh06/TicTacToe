@@ -50,14 +50,24 @@ public class Ollama {
 	}
 
 	private static String body(String model, String prompt, String systemPrompt, double temperature) {
-		return """
-				{
-					"model": "%s",
-					"prompt": "%s",
-					"system": "%s",
-					"options": {"temperature": %s},
-					"stream": false
-				}
-				""".formatted(model, prompt, systemPrompt, temperature);
+		return "{\n" +
+				"  \"model\": \"" + escapeJson(model) + "\",\n" +
+				"  \"prompt\": \"" + escapeJson(prompt) + "\",\n" +
+				"  \"system\": \"" + escapeJson(systemPrompt) + "\",\n" +
+				"  \"options\": {\"temperature\": " + temperature + "},\n" +
+				"  \"stream\": false\n" +
+				"}";
 	}
+
+	private static String escapeJson(String input) {
+		if (input == null) return "";
+		return input.replace("\\", "\\\\")
+				.replace("\"", "\\\"")
+				.replace("\b", "\\b")
+				.replace("\f", "\\f")
+				.replace("\n", "\\n")
+				.replace("\r", "\\r")
+				.replace("\t", "\\t");
+	}
+
 }
