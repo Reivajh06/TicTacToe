@@ -28,6 +28,7 @@ public class Player {
 			String userResponse = scanner.nextLine();
 			board.assignValue(userResponse, this.value);
 			previousMoves.add(userResponse);
+			System.out.println(board);
 
 		} else {
 			String prompt = """
@@ -73,7 +74,7 @@ public class Player {
 					.replace("{rival_previous_moves}", rival.previousMoves.toString());
 
 
-			String response = Ollama.generate("qwen2.5:14b", prompt, 0.5);
+			String response = Ollama.generate("qwen2.5:3b-instruct-q4_K_M", prompt, 0.5);
 
 			System.out.println(response);
 
@@ -86,6 +87,8 @@ public class Player {
 			previousMoves.add(positionToModify);
 
 			board.assignValue(positionToModify, value);
+
+			System.out.println(board);
 		}
 	}
 
