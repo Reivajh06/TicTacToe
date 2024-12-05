@@ -138,7 +138,7 @@ public class Board {
 
 			for(int i = 0; i < values.size(); i++) {
 				if(values.get(i).equals(" ")) {
-					positionsWithoutValue.add(entry.getKey() + (i + 1));
+					positionsWithoutValue.add(entry.getKey() + (i - 1));
 				}
 			}
 		}

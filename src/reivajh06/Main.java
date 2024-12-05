@@ -21,8 +21,8 @@ public class Main {
 			throw new RuntimeException("Unknown tic tac toe value, expected X/O, got %s".formatted(userResponse));
 		}
 
-		Player user = new Player(userResponse, false);
-		Player ai = new Player(userResponse.equals("X")? "O" : "X", true);
+		Player user = new UserPlayer(userResponse);
+		Player ai = new AiPlayer(userResponse.equals("X")? "O" : "X");
 
 		BoardResults matchResult = board.checkBoard();
 
